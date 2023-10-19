@@ -1,1 +1,59 @@
 # FindArk
+석사 학위 졸업 논문에서 개발한 RPG Gym의 코드 리팩토링, 문제점 개선을 위해 시작한 프로젝트 입니다. 기존 Blueprint 기반의 구현체들을 C++로 바꾸고 주요 로직을 C++ 코드로 구현했습니다. 또한, 이를 상속받아 Blueprint에서는 기본 값, 메쉬 등 그래픽 설정 등 사용하는 입장에서 C++ 코드를 몰라도 사용할 수 있도록 구현했습니다.
+
+### 프로젝트 개요
+1. 프로젝트 기간: 2023. 04 ~ 2022. 0.6
+2. 개발 도구 및 개발 환경: </br>
+    <img src="https://img.shields.io/badge/UnrealEngine-0E1128?style=for-the-badge&logo=UnrealEngine&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=Windows&logoColor=white">
+3. 참여 인원: 1인
+<br/>
+
+### 프로젝트 세부 내용
+**1. 캐릭터 구현**
+* Blueprint → C++ 구현
+* 스탯, 스킬을 액터 컴포넌트로 분리해서 구현
+<img src=./assets/BP_Kwang-EventGraph.png>
+<br/>
+
+**2. 캐릭터 & 보스 BT 기반 AI 구현**
+* BT를 사용하여 전투 시나리오가 가능한 AI 기능 구현 (Blueprint)
+* (좌) 캐릭터, (우) 몬스터
+<p align="center">
+<img src=./assets/CharacterBT.png width=350>
+<img src=./assets/MonsterBT.png width=350>
+<img src=./assets/BT_CharacterAI-BehaviorTree.png>
+</p>
+<br/>
+
+**3. 게임 시스템 구현**
+* Game Instance 구현 (C++)
+    * 게임을 실행할 때, 캐릭터, 보스 몬스터, 게임 규칙 등 필요한 정보를 JSON 파일에서 파싱
+    * 파싱된 데이터는 구조체로 관리
+    * FAGameInstance Class
+* Game Mode 구현 (C++)
+    * 게임이 시작될 때, 캐릭터, 보스 몬스터, 게임 규칙을 Game Instance에서 파싱한 JSON 데이터를 사용해 초기화
+    * 게임의 제한 시간, 리셋, 종료 등을 관리
+    * IPC 통신 스레드와 공유 메모리 관리
+    * FAGameModeBase Class
+* 통신 모듈 개선
+    * Deep Learning 학습 환경을 로컬 머신으로 한정하고 따라서 로컬 프로세스 통신 중 속도가 빠른 IPC 방법으로 교체. 따라서 기존 UDP 통신에서 IPC 통신(공유 메모리)로 변경해서 구현
+    * IPC 통신을 위해 게임 주 스레드(UE의 GameThread)가 아닌 별도의 스레드를 생성하고 해당 스레드에서 Python 프로세스와 통신
+    * 통신은 구조체를 직렬화(Serialization) 과정을 거쳐 ByteCode로 변환 후 공유 메모리에 쓰기/읽기를 반복
+    * 공유 메모리 오염 방지를 위해 세마포어 방법을 사용해서 언리얼 프로세스와 Python 프로세스의 쓰기/읽기 순서가 섞이지 않도록 구현
+    * FAWokerThread
+<br/>
+
+**4. 시뮬레이션 기능 구현**
+* Deep Learning 학습에서 매 시뮬레이션마다 파라미터를 수정할 수 있도록 JSON 데이터 파싱 구현 (C++)
+* IPC 통신 기능 구현 (C++)
+* Deep Learning 학습에는 렌더링이 필요없으므로 Headless 기능 구현
+* 시뮬레이션에 소요되는 물리적 시간을 단축하기 위해 가속화 기능 구현
+<br/>
+
+
+### UE5 프로젝트 링크
+[Google Drive](https://drive.google.com/file/d/1o-tWSa91LZL7B0JbRT2CPW2Fl-VFyi4c/view?usp=share_link)
+<br/>
+
+### 개발 진행 영상
+[Playlist (Youtube)](https://www.youtube.com/playlist?list=PLnRVH8DOZjpD25-ojWCmurzCvA9GMnwyE)
