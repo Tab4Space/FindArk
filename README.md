@@ -40,6 +40,7 @@
     * 공유 메모리 오염 방지를 위해 세마포어 방법을 사용해서 언리얼 프로세스와 Python 프로세스의 쓰기/읽기 순서가 섞이지 않도록 구현
     * FAWokerThread
     <img src="./assets/IPC_Architecture.png">
+    
     * [Show Detail](https://github.com/Tab4Space/FindArk/wiki/IPC-flow)
 <br/>
 
