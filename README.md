@@ -4,25 +4,23 @@
 ### 프로젝트 개요
 1. 프로젝트 기간: 2023. 04 ~ 2022. 0.6
 2. 개발 도구 및 개발 환경: </br>
-    <img src="https://img.shields.io/badge/UnrealEngine-0E1128?style=for-the-badge&logo=UnrealEngine&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=Windows&logoColor=white">
+    <img src="https://img.shields.io/badge/UnrealEngine-0E1128?style=for-the-badge&logo=UnrealEngine&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Blender-E87D0D?style=for-the-badge&logo=Blender&logoColor=white"> <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=Windows&logoColor=white">
 3. 참여 인원: 1인
 <br/>
 
 ### 프로젝트 세부 내용
 **1. 캐릭터 구현**
-* Blueprint → C++ 구현
-* 스탯, 스킬을 액터 컴포넌트로 분리해서 구현
-<img src=./assets/BP_Kwang-EventGraph.png>
+* Blueprint → C++ 구현 (FABaseCharacter)
+* 스탯 (FAStatComponent), 스킬 (FASkillComponent)을 액터 컴포넌트로 분리해서 구현
+* Blender를 사용해 Paragon 캐릭터의 스켈레톤 구조 변경(Weapon 제거)
+* Paragon 애셋 및 애니메이션(Frank Pack)을 사용해 스킬 모션 구현(Anim Retargetting 사용)
 <br/>
 
-**2. 캐릭터 & 보스 BT 기반 AI 구현**
-* BT를 사용하여 전투 시나리오가 가능한 AI 기능 구현 (Blueprint)
-* (좌) 캐릭터, (우) 몬스터
-<p align="center">
-<img src=./assets/CharacterBT.png width=350>
-<img src=./assets/MonsterBT.png width=350>
-<img src=./assets/BT_CharacterAI-BehaviorTree.png>
-</p>
+**2. 스탯, 스킬 컴포넌트 구현**
+* 스탯 구성: HP, MP, 공격력, 방어력, 크리티컬 확률, 캐릭터 타입 등을 구조체로 관리 (FCharacterData)
+* 스킬 구성: 스킬 고유 번호, 데미지 계수, 쿨타임, 소비 MP, AnimMontange 등을 구조체와 데이터 테이블로 관리(FSkillData, FSkillExtaData)
+* 각 데이터는 JSON 파일에서 기본 값을 설정하도록 구현
+* 각 데이터는 게임이 시작될 때, GameMode에서 초기화
 <br/>
 
 **3. 게임 시스템 구현**
@@ -48,11 +46,7 @@
 * IPC 통신 기능 구현 (C++)
 * Deep Learning 학습에는 렌더링이 필요없으므로 Headless 기능 구현
 * 시뮬레이션에 소요되는 물리적 시간을 단축하기 위해 가속화 기능 구현
-<br/>
-
-
-### UE5 프로젝트 링크
-[Google Drive](https://drive.google.com/file/d/1o-tWSa91LZL7B0JbRT2CPW2Fl-VFyi4c/view?usp=share_link)
+* Deep Learning에서 쉽게 사용할 수 있도록 OpenAI Gymnasium API 구현
 <br/>
 
 ### 개발 진행 영상
